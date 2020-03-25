@@ -4,7 +4,8 @@ import { getCards } from "./../services/cards";
 
 class DisplayCards extends Component {
   state = {
-    cards: []
+    cards: [],
+    gameOver: ""
   };
 
   componentDidMount() {
@@ -46,14 +47,10 @@ class DisplayCards extends Component {
       }
     }
 
-    this.resetGame(cards, 500);
-    this.isOver();
-  };
-
-  resetGame = (state, time) => {
     setTimeout(() => {
-      this.setState({ cards: state });
-    }, time);
+      this.setState({ cards });
+    }, 500);
+    this.isOver();
   };
 
   isOver = () => {
@@ -65,22 +62,24 @@ class DisplayCards extends Component {
     });
 
     if (count === 12) {
-      this.resetGame(getCards(), 1000);
+      setTimeout(() => {
+        this.setState({ cards: getCards() }, () => alert("Game Over!"));
+      }, 800);
     }
   };
 
   checkTrue = item => {
     return item.isFlipped ? (
-      <img src={item.img} alt="" className="cards" />
+      <img src={item.img} alt="" className="cards card-front" />
     ) : (
-      <img src="/imgs/cardBack.png" alt="" className="cards" />
+      <img src="/imgs/cardBack.png" alt="" className="cards card-back" />
     );
   };
 
   render() {
-    // debugger;
     return (
       <React.Fragment>
+        <div>{this.state.gameOver}</div>
         <div className="container">
           <div className="row card-container">
             {this.state.cards.map((item, index) => (
