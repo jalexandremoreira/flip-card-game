@@ -86,7 +86,8 @@ const cards = [
 ];
 
 export const getCards = () => {
-  return shuffle(cards);
+  const newCards = JSON.parse(JSON.stringify(cards));
+  return shuffle(newCards);
 };
 
 function shuffle(array) {

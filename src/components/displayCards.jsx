@@ -4,8 +4,7 @@ import { getCards } from "./../services/cards";
 
 class DisplayCards extends Component {
   state = {
-    cards: [],
-    matched: []
+    cards: []
   };
 
   componentDidMount() {
@@ -36,20 +35,19 @@ class DisplayCards extends Component {
           if (i.name === flipped[0].name || i.name === flipped[1].name) {
             i.disabled = true;
             i.img = "/imgs/cardCheck.png";
-
-            this.isOver(i);
           } else {
             if (i.disabled !== true) i.isFlipped = false;
           }
         });
-        this.resetGame(cards, 400);
       } else {
         cards.map(i => {
           if (i.disabled !== true) i.isFlipped = false;
         });
-        this.resetGame(cards, 500);
       }
     }
+
+    this.resetGame(cards, 500);
+    this.isOver();
   };
 
   resetGame = (state, time) => {
@@ -58,23 +56,17 @@ class DisplayCards extends Component {
     }, time);
   };
 
-  isOver = item => {
-    const matched = [...this.state.matched];
+  isOver = () => {
+    let cards = [...this.state.cards];
+    let count = 10;
 
-    if (matched.length === 0) {
-      matched.push(item);
-      console.log(matched);
-    } else if (matched.length >= 1) {
-      matched.map(i => {
-        if (i.id !== item.id) {
-          matched.push(item);
-          console.log(i);
-        }
-      });
-    } else if (matched.length === this.state.cards.length) {
+    cards.map(i => {
+      if (i.disabled === true) count++;
+    });
+
+    if (count === 12) {
       this.resetGame(getCards(), 1000);
     }
-    this.setState({ matched });
   };
 
   checkTrue = item => {
@@ -86,21 +78,24 @@ class DisplayCards extends Component {
   };
 
   render() {
+    // debugger;
     return (
-      <div className="container">
-        <div className="row card-container">
-          {this.state.cards.map((item, index) => (
-            <div
-              className="col-sm-4 cards-div"
-              onClick={() => this.handleFlip(item)}
-              key={index}
-              disabled={item.disabled}
-            >
-              {this.checkTrue(item)}
-            </div>
-          ))}
+      <React.Fragment>
+        <div className="container">
+          <div className="row card-container">
+            {this.state.cards.map((item, index) => (
+              <div
+                className="col-sm-4 cards-div"
+                onClick={() => this.handleFlip(item)}
+                key={index}
+                disabled={item.disabled}
+              >
+                {this.checkTrue(item)}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
