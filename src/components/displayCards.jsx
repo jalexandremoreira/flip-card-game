@@ -70,9 +70,19 @@ class DisplayCards extends Component {
 
   checkTrue = item => {
     return item.isFlipped ? (
-      <img src={item.img} alt="" className="cards card-front" />
+      <img
+        src={item.img}
+        alt=""
+        className="cards card-front"
+        onClick={() => this.handleFlip(item)}
+      />
     ) : (
-      <img src="/imgs/cardBack.png" alt="" className="cards card-back" />
+      <img
+        src="/imgs/cardBack.png"
+        alt=""
+        className="cards card-back"
+        onClick={() => this.handleFlip(item)}
+      />
     );
   };
 
@@ -84,8 +94,7 @@ class DisplayCards extends Component {
           <div className="row card-container">
             {this.state.cards.map((item, index) => (
               <div
-                className="col-sm-4 cards-div"
-                onClick={() => this.handleFlip(item)}
+                className="col-4 cards-div"
                 key={index}
                 disabled={item.disabled}
               >
