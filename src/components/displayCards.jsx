@@ -55,7 +55,7 @@ class DisplayCards extends Component {
 
   isOver = () => {
     let cards = [...this.state.cards];
-    let count = 10;
+    let count = 0;
 
     cards.map(i => {
       if (i.disabled === true) count++;
