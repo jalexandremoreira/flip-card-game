@@ -12,7 +12,8 @@ class DisplayCards extends Component {
     this.setState({ cards: getCards() });
   }
 
-  handleFlip = item => {
+  handleFlip = (e, item) => {
+    e.preventDefault();
     const cards = [...this.state.cards];
 
     cards.map(i => {
@@ -74,14 +75,14 @@ class DisplayCards extends Component {
         src={item.img}
         alt=""
         className="cards card-front"
-        onClick={() => this.handleFlip(item)}
+        onClick={e => this.handleFlip(e, item)}
       />
     ) : (
       <img
         src="/imgs/cardBack.png"
         alt=""
         className="cards card-back"
-        onClick={() => this.handleFlip(item)}
+        onClick={e => this.handleFlip(e, item)}
       />
     );
   };
